@@ -12,6 +12,43 @@ namespace NNPTPZ1.Mathematics.Tests
     [TestClass()]
     public class CplxTests
     {
+        [TestMethod]
+        public void MultiplicationAndSubtractionPreserveComplexArithmetic()
+        {
+            var first = new Cplx { Re = 2, Imaginari = 3 };
+            var second = new Cplx { Re = 4, Imaginari = -5 };
+
+            Assert.AreEqual(new Cplx { Re = 23, Imaginari = 2 }, first.Multiply(second));
+            Assert.AreEqual(new Cplx { Re = -2, Imaginari = 8 }, first.Subtract(second));
+            Assert.AreEqual(new Cplx { Re = 2, Imaginari = 3 }, first);
+        }
+
+        [TestMethod]
+        public void CubicPolynomialAndDerivativeEvaluateAtComplexPoint()
+        {
+            var polynomial = new Poly();
+            polynomial.Add(new Cplx { Re = 1 });
+            polynomial.Add(Cplx.Zero);
+            polynomial.Add(Cplx.Zero);
+            polynomial.Add(new Cplx { Re = 1 });
+            var point = new Cplx { Re = 1, Imaginari = 1 };
+
+            Assert.AreEqual(new Cplx { Re = -1, Imaginari = 2 }, polynomial.Eval(point));
+            Assert.AreEqual(new Cplx { Re = 0, Imaginari = 6 }, polynomial.Derive().Eval(point));
+            Assert.AreEqual(4, polynomial.Coe.Count);
+        }
+
+        [TestMethod]
+        public void EqualComplexNumbersHaveEqualHashCodes()
+        {
+            var first = new Cplx { Re = 2, Imaginari = -3 };
+            var second = new Cplx { Re = 2, Imaginari = -3 };
+
+            Assert.AreEqual(first, second);
+            Assert.AreEqual(first.GetHashCode(), second.GetHashCode());
+            Assert.AreNotEqual(first, new Cplx { Re = 2, Imaginari = 3 });
+            Assert.IsFalse(first.Equals(null));
+        }
 
         [TestMethod()]
         public void AddTest()
@@ -85,5 +122,4 @@ namespace NNPTPZ1.Mathematics.Tests
         }
     }
 }
-
 
