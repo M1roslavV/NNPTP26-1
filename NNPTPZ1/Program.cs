@@ -24,10 +24,10 @@ namespace NNPTPZ1
         private static Poly CreatePolynomial()
         {
             var polynomial = new Poly();
-            polynomial.Add(new Cplx { Re = 1 });
+            polynomial.Add(new Cplx { Real = 1 });
             polynomial.Add(Cplx.Zero);
             polynomial.Add(Cplx.Zero);
-            polynomial.Add(new Cplx { Re = 1 });
+            polynomial.Add(new Cplx { Real = 1 });
             return polynomial;
         }
     }

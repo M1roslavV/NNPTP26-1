@@ -4,28 +4,28 @@ namespace NNPTPZ1.Mathematics
 {
     public class Cplx
     {
-        public double Re { get; set; }
-        public float Imaginari { get; set; }
+        public double Real { get; set; }
+        public float Imaginary { get; set; }
+
+        public static readonly Cplx Zero = new Cplx()
+        {
+            Real = 0,
+            Imaginary = 0
+        };
 
         public override bool Equals(object obj)
         {
             var other = obj as Cplx;
-            return other != null && other.Re == Re && other.Imaginari == Imaginari;
+            return other != null && other.Real == Real && other.Imaginary == Imaginary;
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (Re.GetHashCode() * 397) ^ Imaginari.GetHashCode();
+                return (Real.GetHashCode() * 397) ^ Imaginary.GetHashCode();
             }
         }
-
-        public readonly static Cplx Zero = new Cplx()
-        {
-            Re = 0,
-            Imaginari = 0
-        };
 
         public Cplx Multiply(Cplx b)
         {
@@ -33,13 +33,13 @@ namespace NNPTPZ1.Mathematics
             // aRe*bRe + aRe*bIm*i + aIm*bRe*i + aIm*bIm*i*i
             return new Cplx()
             {
-                Re = a.Re * b.Re - a.Imaginari * b.Imaginari,
-                Imaginari = (float)(a.Re * b.Imaginari + a.Imaginari * b.Re)
+                Real = a.Real * b.Real - a.Imaginary * b.Imaginary,
+                Imaginary = (float)(a.Real * b.Imaginary + a.Imaginary * b.Real)
             };
         }
-        public double GetAbS()
+        public double GetAbs()
         {
-            return Math.Sqrt( Re * Re + Imaginari * Imaginari);
+            return Math.Sqrt(Real * Real + Imaginary * Imaginary);
         }
 
         public Cplx Add(Cplx b)
@@ -47,27 +47,28 @@ namespace NNPTPZ1.Mathematics
             Cplx a = this;
             return new Cplx()
             {
-                Re = a.Re + b.Re,
-                Imaginari = a.Imaginari + b.Imaginari
+                Real = a.Real + b.Real,
+                Imaginary = a.Imaginary + b.Imaginary
             };
         }
-        public double GetAngleInDegrees()
+        /// <summary>Returns the complex argument in radians, from -pi to pi.</summary>
+        public double GetAngleInRadians()
         {
-            return Math.Atan(Imaginari / Re);
+            return Math.Atan2(Imaginary, Real);
         }
         public Cplx Subtract(Cplx b)
         {
             Cplx a = this;
             return new Cplx()
             {
-                Re = a.Re - b.Re,
-                Imaginari = a.Imaginari - b.Imaginari
+                Real = a.Real - b.Real,
+                Imaginary = a.Imaginary - b.Imaginary
             };
         }
 
         public override string ToString()
         {
-            return $"({Re} + {Imaginari}i)";
+            return $"({Real} + {Imaginary}i)";
         }
 
         internal Cplx Divide(Cplx b)
@@ -75,13 +76,13 @@ namespace NNPTPZ1.Mathematics
             // (aRe + aIm*i) / (bRe + bIm*i)
             // ((aRe + aIm*i) * (bRe - bIm*i)) / ((bRe + bIm*i) * (bRe - bIm*i))
             //  bRe*bRe - bIm*bIm*i*i
-            var tmp = this.Multiply(new Cplx() { Re = b.Re, Imaginari = -b.Imaginari });
-            var tmp2 = b.Re * b.Re + b.Imaginari * b.Imaginari;
+            var tmp = this.Multiply(new Cplx() { Real = b.Real, Imaginary = -b.Imaginary });
+            var tmp2 = b.Real * b.Real + b.Imaginary * b.Imaginary;
 
             return new Cplx()
             {
-                Re = tmp.Re / tmp2,
-                Imaginari = (float)(tmp.Imaginari / tmp2)
+                Real = tmp.Real / tmp2,
+                Imaginary = (float)(tmp.Imaginary / tmp2)
             };
         }
     }

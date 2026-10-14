@@ -39,7 +39,7 @@ namespace NNPTPZ1
                     for (int j = 0; j < options.Height; j++)
                     {
                         Cplx point = CreateStartingPoint(options, i, j);
-                        float iterations;
+                        int iterations;
                         Cplx root = FindRoot(point, out iterations);
                         int rootIndex = FindRootIndex(roots, root);
                         bitmap.SetPixel(j, i, GetPixelColor(rootIndex, iterations));
@@ -58,19 +58,19 @@ namespace NNPTPZ1
         {
             var point = new Cplx
             {
-                Re = options.XMin + j * options.XStep,
-                Imaginari = (float)(options.YMin + i * options.YStep)
+                Real = options.XMin + j * options.XStep,
+                Imaginary = (float)(options.YMin + i * options.YStep)
             };
 
-            if (point.Re == 0)
-                point.Re = 0.0001;
-            if (point.Imaginari == 0)
-                point.Imaginari = 0.0001f;
+            if (point.Real == 0)
+                point.Real = 0.0001;
+            if (point.Imaginary == 0)
+                point.Imaginary = 0.0001f;
 
             return point;
         }
 
-        private Cplx FindRoot(Cplx point, out float iterations)
+        private Cplx FindRoot(Cplx point, out int iterations)
         {
             iterations = 0;
             for (int step = 0; step < RequiredIterations; step++)
@@ -105,13 +105,13 @@ namespace NNPTPZ1
 
         private static double SquaredMagnitude(Cplx value)
         {
-            return Math.Pow(value.Re, 2) + Math.Pow(value.Imaginari, 2);
+            return Math.Pow(value.Real, 2) + Math.Pow(value.Imaginary, 2);
         }
 
-        private static Color GetPixelColor(int rootIndex, float iterations)
+        private static Color GetPixelColor(int rootIndex, int iterations)
         {
             Color color = RootColors[rootIndex % RootColors.Length];
-            int darkening = (int)iterations * DarkeningPerIteration;
+            int darkening = iterations * DarkeningPerIteration;
             return Color.FromArgb(
                 DarkenChannel(color.R, darkening),
                 DarkenChannel(color.G, darkening),

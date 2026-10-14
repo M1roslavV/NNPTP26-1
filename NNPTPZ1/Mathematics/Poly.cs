@@ -5,17 +5,17 @@ namespace NNPTPZ1.Mathematics
     public class Poly
     {
         /// <summary>
-        /// Coe
+        /// Coefficients in ascending power order: index i contains the coefficient of x^i.
         /// </summary>
-        public List<Cplx> Coe { get; set; }
+        public List<Cplx> Coefficients { get; set; }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public Poly() => Coe = new List<Cplx>();
+        public Poly() => Coefficients = new List<Cplx>();
 
-        public void Add(Cplx coe) =>
-            Coe.Add(coe);
+        public void Add(Cplx coefficient) =>
+            Coefficients.Add(coefficient);
 
         /// <summary>
         /// Derives this polynomial and creates new one
@@ -24,9 +24,9 @@ namespace NNPTPZ1.Mathematics
         public Poly Derive()
         {
             Poly p = new Poly();
-            for (int q = 1; q < Coe.Count; q++)
+            for (int q = 1; q < Coefficients.Count; q++)
             {
-                p.Coe.Add(Coe[q].Multiply(new Cplx() { Re = q }));
+                p.Coefficients.Add(Coefficients[q].Multiply(new Cplx() { Real = q }));
             }
 
             return p;
@@ -39,7 +39,7 @@ namespace NNPTPZ1.Mathematics
         /// <returns>y</returns>
         public Cplx Eval(double x)
         {
-            var y = Eval(new Cplx() { Re = x, Imaginari = 0 });
+            var y = Eval(new Cplx() { Real = x, Imaginary = 0 });
             return y;
         }
 
@@ -51,9 +51,9 @@ namespace NNPTPZ1.Mathematics
         public Cplx Eval(Cplx x)
         {
             Cplx s = Cplx.Zero;
-            for (int i = 0; i < Coe.Count; i++)
+            for (int i = 0; i < Coefficients.Count; i++)
             {
-                Cplx coef = Coe[i];
+                Cplx coef = Coefficients[i];
                 Cplx bx = x;
                 int power = i;
 
@@ -79,9 +79,9 @@ namespace NNPTPZ1.Mathematics
         {
             string s = "";
             int i = 0;
-            for (; i < Coe.Count; i++)
+            for (; i < Coefficients.Count; i++)
             {
-                s += Coe[i];
+                s += Coefficients[i];
                 if (i > 0)
                 {
                     int j = 0;
@@ -90,7 +90,7 @@ namespace NNPTPZ1.Mathematics
                         s += "x";
                     }
                 }
-                if (i+1<Coe.Count)
+                if (i+1<Coefficients.Count)
                 s += " + ";
             }
             return s;
